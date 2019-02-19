@@ -1,0 +1,28 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+@import '~jquery-ui/themes/base/all.css';
+
+@import "~font-awesome/css/font-awesome.css";
+
+@import '~lightbox2/src/css/lightbox.css';
+
+@import '~fullcalendar/dist/fullcalendar.css';
+
+@import '~frontwise-grid-editor/dist/grideditor-font-awesome.css';
+
+@import '~frontwise-grid-editor/dist/grideditor.css';
+
+@import '~summernote/dist/summernote.css';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
