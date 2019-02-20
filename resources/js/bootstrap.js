@@ -14,6 +14,7 @@ try {
     require('datatables.net-bs4');
     require('jquery-ui');
     require('jquery-ui/ui/widgets/sortable');
+    require('jquery-ui/ui/effect.js');
     require('summernote');
     require('frontwise-grid-editor');
     require('blueimp-file-upload');

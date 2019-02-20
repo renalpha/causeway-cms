@@ -15,7 +15,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/test', 'Admin\SoundController@foobar');
 /**
  * Protected routes for verified users...
  */

@@ -26,12 +26,10 @@
     @endif
 </div>
 
-    <div id="gridEditor">
-
-    </div>
-
+<div id="gridEditor"></div>
 
 <div class="form-group">
+    <hr />
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
 </div>
 
@@ -41,7 +39,34 @@
         $('#gridEditor').gridEditor({
             content_types: ['summernote'],
             summernote: {
-                config: { shortcuts: false }
+                config: {
+                    shortcuts: false,
+                    popover: {
+                        image: [
+                            ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+                            ['float', ['floatLeft', 'floatRight', 'floatNone']],
+                            ['remove', ['removeMedia']]
+                        ],
+                        link: [
+                            ['link', ['linkDialogShow', 'unlink']]
+                        ],
+                        table: [
+                            ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+                            ['delete', ['deleteRow', 'deleteCol', 'deleteTable']]
+                        ],
+                        air: [
+                            ['style', ['style']],
+                            ['font', ['bold', 'italic', 'underline', 'clear']],
+                            ['fontname', ['fontname']],
+                            ['color', ['color']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['height', ['height']],
+                            ['table', ['table']],
+                            ['insert', ['link', 'picture', 'hr']],
+                            ['help', ['help']]
+                        ]
+                    },
+                }
             }
         });
 
