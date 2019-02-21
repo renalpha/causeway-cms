@@ -19,6 +19,7 @@ try {
     require('frontwise-grid-editor');
     require('blueimp-file-upload');
     require('lightbox2');
+    require('soundmanager2');
 } catch (e) {}
 
 /**

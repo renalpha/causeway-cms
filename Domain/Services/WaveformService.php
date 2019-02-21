@@ -425,7 +425,7 @@ class WaveformService {
             $result[] = "{$filename}_l.wav";
             $result[] = "{$filename}_r.wav";
         } else {
-            exec("lame {$filename}_o.mp3 -m m -S -f -b 16 --resample 8 {$filename}_2.mp3 && lame -S --decode {$filename}_2.mp3 {$filename}.wav");
+            exec("lame {$filename}_o.mp3 --scale 2 -m m -S -f -b 100 --resample 128 {$filename}_2.mp3 && lame -S --decode {$filename}_2.mp3 {$filename}.wav");
 
             $result[] = "{$filename}.wav";
         }
@@ -445,8 +445,8 @@ class WaveformService {
             unlink(sprintf("%s.wav", $this->file));
         }
         else {
-            unlink(spritf("%s_l.wav", $this->file));
-            unlink(spritf("%s_r.wav", $this->file));
+            unlink(sprintf("%s_l.wav", $this->file));
+            unlink(sprintf("%s_r.wav", $this->file));
         }
     }
 

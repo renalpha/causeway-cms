@@ -246,4 +246,7 @@ div.dataTables_wrapper {
     list-style-type: none;
     padding: 0;
     display: none;
+    position: absolute;
+    z-index: 10;
+    width: 100%;
 }

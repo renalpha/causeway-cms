@@ -9,9 +9,12 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <link rel="stylesheet" href="{{ asset('css/datatables.css') }}">
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/website.js') }}"></script>
+    <script src="{{ asset('js/datatables.min.js') }}"></script>
 
     <script>
         window.Laravel = <?php echo json_encode([

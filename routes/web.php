@@ -16,6 +16,7 @@ Auth::routes(['verify' => true]);
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/test', 'Admin\SoundController@foobar');
+Route::get('/play', 'Admin\SoundController@play');
 /**
  * Protected routes for verified users...
  */
@@ -37,7 +38,15 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
         });
 
         Route::group(['prefix' => 'pages', 'middleware' => ['admin']], function () {
-            Route::get('index', 'PageController@getAjaxPages')->name('ajax.pages.index');
+            Route::get('index', 'Admin\PageController@getAjaxPages')->name('ajax.pages.index');
+        });
+
+        Route::group(['prefix' => 'menu', 'middleware' => ['admin']], function () {
+            Route::get('index', 'Admin\MenuController@getAjaxMenu')->name('ajax.menu.index');
+        });
+
+        Route::group(['prefix' => 'sound', 'middleware' => ['admin']], function () {
+            Route::get('index', 'Admin\SoundController@getAjaxPages')->name('ajax.sound.index');
         });
     });
 
@@ -83,6 +92,24 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
             'edit' => 'admin.pages.update',
             'store' => 'admin.pages.new.store',
             'update' => 'admin.pages.update.store',
+        ]);
+
+        Route::resource('sound', 'SoundController')->names([
+            'index' => 'admin.sound.index',
+            'create' => 'admin.sound.create',
+            'edit' => 'admin.sound.update',
+            'store' => 'admin.sound.new.store',
+            'update' => 'admin.sound.update.store',
+        ]);
+
+        Route::resource('menu', 'MenuController')->names([
+            'index' => 'admin.menu.index',
+            'create' => 'admin.menu.create',
+            'edit' => 'admin.menu.update',
+            'destroy' => 'admin.menu.remove',
+            'show' => 'admin.menu.show',
+            'store' => 'admin.menu.new.store',
+            'update' => 'admin.menu.update.store',
         ]);
 
     });
