@@ -11,7 +11,7 @@
 
             <hr/>
 
-            <form method="post" action="{{ route('admin.events.new.store') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('admin.events.create.store') }}" enctype="multipart/form-data">
                 @include('admin.events.partials._form')
             </form>
 

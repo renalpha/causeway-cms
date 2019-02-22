@@ -11,7 +11,7 @@
 
             <hr/>
 
-            <form method="post" action="{{ route('admin.album.new.store') }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('admin.photo.album.new.store') }}" enctype="multipart/form-data">
                 @include('admin.photo.album.partials._form')
             </form>
 

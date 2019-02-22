@@ -18,6 +18,7 @@
     "rennokki/befriended": "^1.2",
     "spatie/laravel-permission": "^2.32",
     "vinkla/hashids": "^5.1",
+    "intervention/image": "^2.4",
     "yajra/laravel-datatables-oracle": "~8.0"
   },
   "require-dev": {

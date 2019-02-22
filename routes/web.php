@@ -62,12 +62,12 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
         Route::group(['prefix' => 'photo'], function () {
 
             Route::group(['prefix' => 'album'], function () {
-                Route::get('/new', 'PhotoAlbumController@createAlbum')->name('admin.album.create');
-                Route::post('/new', 'PhotoAlbumController@storeAlbum')->name('admin.album.new.store');
-                Route::get('/edit/{photoAlbum}', 'PhotoAlbumController@editAlbum')->name('admin.album.edit');
-                Route::post('/edit/{photoAlbum}', 'PhotoAlbumController@storeAlbum')->name('admin.album.edit.store');
-                Route::get('/remove/{photoAlbum}', 'PhotoAlbumController@removeAlbum')->name('admin.album.remove');
-                Route::get('/{photoAlbum?}', 'PhotoAlbumController@index')->name('admin.album.index');
+                Route::get('/new', 'PhotoAlbumController@createAlbum')->name('admin.photo.album.new');
+                Route::post('/new', 'PhotoAlbumController@storeAlbum')->name('admin.photo.album.new.store');
+                Route::get('/edit/{photoAlbum}', 'PhotoAlbumController@editAlbum')->name('admin.photo.album.edit');
+                Route::post('/edit/{photoAlbum}', 'PhotoAlbumController@storeAlbum')->name('admin.photo.album.edit.store');
+                Route::get('/remove/{photoAlbum}', 'PhotoAlbumController@removeAlbum')->name('admin.photo.album.remove');
+                Route::get('/{photoAlbum?}', 'PhotoAlbumController@index')->name('admin.photo.album.index');
             });
 
             Route::get('/new', 'PhotoAlbumController@newPhoto')->name('admin.photo.create');
@@ -111,6 +111,7 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
             'store' => 'admin.menu.new.store',
             'update' => 'admin.menu.update.store',
         ]);
+        Route::post('menu/show/{menu}/sort', 'MenuController@sort')->name('admin.menu.show.sort');
 
     });
 

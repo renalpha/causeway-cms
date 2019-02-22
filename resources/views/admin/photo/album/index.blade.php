@@ -20,7 +20,7 @@
 
             <h4 class="float-left">Album</h4>
 
-            <a href="{{ route('admin.album.new') }}" class="btn btn-primary float-right">Create Album</a>
+            <a href="{{ route('admin.photo.album.new') }}" class="btn btn-primary float-right">Create Album</a>
             <div class="clearfix"></div>
 
             <hr/>
@@ -42,10 +42,10 @@
                 @if(count($subAlbums) > 0)
                     @foreach($subAlbums as $subAlbum)
                         <div class="card">
-                            <a href="{{ route('admin.album.remove', ['id' => $subAlbum->id]) }}" class="btn btn-sm btn-danger float-right position-absolute"
+                            <a href="{{ route('admin.photo.album.remove', ['id' => $subAlbum->id]) }}" class="btn btn-sm btn-danger float-right position-absolute"
                                onclick="return confirm('Delete album and childalbums and all pictures?')" data-placement="top" data-toggle="tooltip" title="Delete album"><i
                                         class="fa fa-remove"></i></a>
-                            <a href="{{ route('admin.album.index', ['album' => $subAlbum->label]) }}">
+                            <a href="{{ route('admin.photo.album.index', ['album' => $subAlbum->label]) }}">
                                 <img data-src="{{ $subAlbum->cover }}" alt="100%x280" style="height: 280px; width: 100%; display: block;" src="{{ asset($subAlbum->cover) }}"
                                      data-holder-rendered="true">
                             </a>

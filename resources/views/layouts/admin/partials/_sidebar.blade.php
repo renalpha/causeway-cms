@@ -20,9 +20,9 @@
                 <li><a href="{{ route('admin.events.create') }}" class="list-group-item"><i class="fa fa-calendar-check-o"></i> <span>New event</span></a></li>
             </ul>
         </li>
-        <li><a href="{{ route('admin.album.index') }}" class="list-group-item {{ (request()->is('admin/photo/album*'))? 'active' :'' }}"><i class="fa fa-photo"></i> <span>Photos</span></a>
+        <li><a href="{{ route('admin.photo.album.index') }}" class="list-group-item {{ (request()->is('admin/photo/album*'))? 'active' :'' }}"><i class="fa fa-photo"></i> <span>Photos</span></a>
             <ul class="submenu" style="display: {{ (request()->is('admin/photo/album/new'))? 'block' :'' }};">
-                <li><a href="{{ route('admin.album.create') }}" class="list-group-item"><i class="fa fa-file-photo-o"></i> <span>New album</span></a></li>
+                <li><a href="{{ route('admin.photo.album.new') }}" class="list-group-item"><i class="fa fa-file-photo-o"></i> <span>New album</span></a></li>
             </ul>
         </li>
         <li><a href="{{ route('admin.sound.index') }}" class="list-group-item {{ (request()->is('admin/sound/album*'))? 'active' :'' }}"><i class="fa fa-music"></i> <span>Sound</span></a>

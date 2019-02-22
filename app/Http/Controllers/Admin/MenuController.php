@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostMenuRequest;
 use Domain\Entities\Menu\Menu;
+use Domain\Entities\Menu\MenuItem;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -62,7 +63,7 @@ class MenuController extends Controller
     public function show(Request $request, Menu $menu)
     {
         return view('admin.menu.show', [
-            'menu' => $menu
+            'menu' => $menu,
         ]);
     }
 
@@ -76,6 +77,12 @@ class MenuController extends Controller
 
     }
 
+    /**
+     * Get Datatables.
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public function getAjaxMenu()
     {
         $menu = Menu::getParents()->get();
@@ -98,6 +105,31 @@ class MenuController extends Controller
             })
             ->rawColumns(['label', 'name', 'items', 'manage'])
             ->make(true);
+    }
+
+    /**
+     * @param Request $request
+     * @param Menu $menu
+     * @return false|string
+     */
+    public function sort(Request $request, Menu $menu)
+    {
+        $conditions = $request->data;
+        $items = json_decode($conditions);
+
+        $conditions = $items;
+
+        foreach ($conditions as $position => $item) {
+            $item = (object)$item;
+            if (isset($item->id)) {
+                $condition = MenuItem::findOrFail($item->id);
+                $condition->sequence = $position;
+                $condition->parent_id = $item->parent_id;
+                $condition->save();
+            }
+        }
+
+        return json_encode(['status' => true]);
     }
 
 }

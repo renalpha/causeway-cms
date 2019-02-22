@@ -12,7 +12,7 @@
         <div class="card-body">
             @include('layouts.partials._status_messages')
 
-            <a href="{{ route('admin.events.new') }}" class="btn btn-primary float-right">Create Event</a>
+            <a href="{{ route('admin.events.create') }}" class="btn btn-primary float-right">Create Event</a>
             <div class="clearfix"></div>
 
             <hr/>
