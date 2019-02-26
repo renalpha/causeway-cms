@@ -3,8 +3,6 @@
 namespace App\Http\ViewComposers;
 
 use Domain\Entities\Menu\Menu;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class NavigationComposer

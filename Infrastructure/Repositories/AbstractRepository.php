@@ -19,9 +19,9 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
 
     /**
      * AbstractRepository constructor.
-     * @param Entity $model
+     * @param Model $model
      */
-    public function __construct(Entity $model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }

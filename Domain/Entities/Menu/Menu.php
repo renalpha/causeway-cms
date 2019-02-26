@@ -34,11 +34,13 @@ class Menu extends AggregateRoot
     {
         $query->whereHas('items', function (Builder $query) {
             return $query->whereNull('access_level')
-                ->whereNUll('parent_id');
+                ->whereNUll('parent_id')
+                ->orderBy('sequence');
         })
             ->with(['items' => function (HasMany $query) {
                 return $query->whereNull('access_level')
-                    ->whereNUll('parent_id');
+                    ->whereNUll('parent_id')
+                    ->orderBy('sequence');
             }]);
 
         return $query;

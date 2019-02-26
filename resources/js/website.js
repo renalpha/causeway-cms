@@ -4,6 +4,7 @@ require('./Broadcasting/comments.js');
 require('fullcalendar');
 require('./bar-ui.js');
 require('./jquery.mjs.nestedSortable.js');
+require('./vueMethods.js');
 
 window.jQuery(document).ready(function () {
     $(function () {

@@ -114,16 +114,14 @@ class MenuController extends Controller
      */
     public function sort(Request $request, Menu $menu)
     {
-        $conditions = $request->data;
-        $items = json_decode($conditions);
+        $items = $request->data;
+        $items = json_decode($items);
 
-        $conditions = $items;
-
-        foreach ($conditions as $position => $item) {
+        foreach ($items as $position => $item) {
             $item = (object)$item;
             if (isset($item->id)) {
-                $condition = MenuItem::findOrFail($item->id);
-                $condition->sequence = $position;
+                $condition = MenuItem::where('menu_id', $menu->id)->findOrFail($item->id);
+                $condition->sequence = $item->left;
                 $condition->parent_id = $item->parent_id;
                 $condition->save();
             }

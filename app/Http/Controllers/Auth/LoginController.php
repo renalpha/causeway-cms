@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostLoginRequest;
+use Domain\Services\UserService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -28,12 +31,27 @@ class LoginController extends Controller
     protected $redirectTo = '/home';
 
     /**
+     * @var UserService
+     */
+    protected $userService;
+
+    /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param UserService $userService
      */
-    public function __construct()
+    public function __construct(UserService $userService)
     {
+        $this->userService = $userService;
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * @param PostLoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(PostLoginRequest $request)
+    {
+        return $this->userService->login($request->only(['email', 'password', 'remember']));
     }
 }
