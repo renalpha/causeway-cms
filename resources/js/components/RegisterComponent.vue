@@ -74,7 +74,7 @@
                 event.preventDefault();
 
                 // perform ajax
-                axios.post('/register', vm.registerDetails)
+                axios.post(this.register_route, vm.registerDetails)
                     .then(function (response) {
                         var result = response.data;
 

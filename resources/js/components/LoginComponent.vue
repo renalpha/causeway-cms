@@ -1,6 +1,10 @@
 <template>
     <form method="POST" :action="login_route" id="login-form" v-on:submit="loginPost">
-        <input type="hidden" name="_token" :value=csrf_token />
+        <div class="alert spacing" v-bind:class="flashMessage.type" role="alert" v-show="flashMessage.show">
+            <strong>{{ flashMessage.title }}</strong><br/>
+            {{ flashMessage.message }}
+        </div>
+        <input type="hidden" name="_token" :value="csrf_token" />
         <div class="form-group row">
             <label for="email" class="col-md-4 col-form-label text-md-right">E-mail address</label>
 
@@ -57,12 +61,31 @@
                     email: '',
                     password: ''
                 },
+                flashMessage: {
+                    type: '',
+                    title: '',
+                    message: ''
+                },
                 formErrors: {}
+            }
+        },
+        created() {
+            if (this.message) {
+                this.flash(this.message)
             }
         },
         props: ['csrf_token', 'login_route', 'request_password_route'],
 
         methods: {
+            flash(type, title, message) {
+                this.flashMessage.show = true;
+                this.flashMessage.type = type;
+                this.flashMessage.title = title;
+                this.flashMessage.message = message;
+            },
+            hide() {
+                this.show = false;
+            },
             loginPost: function (event) {
 
                 let vm = this;
@@ -70,17 +93,18 @@
                 event.preventDefault();
 
                 // perform ajax
-                axios.post('/login', vm.loginDetails)
+                axios.post(this.login_route, vm.loginDetails)
                     .then(function (response) {
                         var result = response.data;
-
                         if (result.status === true) {
+                            vm.flash('alert-success', 'Success:', 'You are logged in. Redirecting...');
                             location.reload();
                         }
                     })
                     .catch(function (error) {
                         var errors = error.response.data;
                         vm.formErrors = errors.errors;
+                        vm.flash('alert-danger', 'Error:', 'An error occurred.');
                     });
             }
         }

@@ -8,9 +8,11 @@
                     <div class="card-header">{{ __('Login') }}</div>
 
                     <div class="card-body">
-                        <login-component csrf_token="{{ csrf_token() }}"
-                                         request_password_route="{{ route('password.request') }}"
-                                         login_route="{{ route('login') }}"></login-component>
+                        <login-component
+                                csrf_token="{{ csrf_token() }}"
+                                request_password_route="{{ route('password.request') }}"
+                                login_route="{{ route('login') }}"
+                        ></login-component>
                     </div>
                 </div>
             </div>

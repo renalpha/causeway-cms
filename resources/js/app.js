@@ -20,6 +20,8 @@ Vue.component('login-component', require('./components/LoginComponent.vue').defa
 
 Vue.component('register-component', require('./components/RegisterComponent.vue').default);
 
+Vue.component('request-password-component', require('./components/RequestPasswordComponent.vue').default);
+
 const app = new Vue({
     el: '#app'
 });

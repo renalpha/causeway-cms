@@ -8,6 +8,10 @@ use Domain\Services\UserService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
+/**
+ * Class LoginController
+ * @package App\Http\Controllers\Auth
+ */
 class LoginController extends Controller
 {
     /*
@@ -54,4 +58,22 @@ class LoginController extends Controller
     {
         return $this->userService->login($request->only(['email', 'password', 'remember']));
     }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->flash('notice', 'You have been logged out...');
+
+        return $this->loggedOut($request) ?: redirect('/');
+    }
+
 }
