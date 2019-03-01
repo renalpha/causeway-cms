@@ -11,9 +11,9 @@
 
             <hr/>
 
-            <form method="post" action="{{ route('admin.menu.new.store') }}" enctype="multipart/form-data" id="menu-form">
-                @include('admin.Menu.partials._form')
-            </form>
+            {{ Form::open(['url' => route('admin.menu.new.store'), 'id' => 'menu-form']) }}
+            @include('admin.menu.partials._form')
+            {{ Form::close() }}
 
         </div>
     </div>

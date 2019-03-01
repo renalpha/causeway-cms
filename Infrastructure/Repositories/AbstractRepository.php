@@ -36,6 +36,26 @@ abstract class AbstractRepository implements AbstractRepositoryInterface
     }
 
     /**
+     * @param array $match
+     * @param array $params
+     * @return Model
+     */
+    public function updateOrCreate(array $match, array $params)
+    {
+        return $this->model->updateOrCreate($match, $params);
+    }
+
+    /**
+     * @param array $match
+     * @param array $params
+     * @return Model
+     */
+    public function createOrUpdate(array $match, array $params)
+    {
+        return $this->updateOrCreate($match, $params);
+    }
+
+    /**
      * @param array $attributes
      * @param $id
      * @return mixed

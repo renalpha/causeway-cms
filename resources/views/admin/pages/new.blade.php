@@ -11,9 +11,9 @@
 
             <hr/>
 
-            <form method="post" action="{{ route('admin.pages.new.store') }}" enctype="multipart/form-data" id="page-form">
-                @include('admin.pages.partials._form')
-            </form>
+            {{ Form::open(['url' => route('admin.pages.new.store'), 'id' => 'page-form']) }}
+            @include('admin.pages.partials._form')
+            {{ Form::close() }}
 
         </div>
     </div>

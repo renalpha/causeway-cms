@@ -56,6 +56,7 @@ class RegisterController extends Controller
      *
      * @param PostRegisterRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Throwable
      */
     public function register(PostRegisterRequest $request)
     {

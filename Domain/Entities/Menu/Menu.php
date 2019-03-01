@@ -23,7 +23,7 @@ class Menu extends AggregateRoot
      */
     public function items()
     {
-        return $this->hasMany(MenuItem::class);
+        return $this->hasMany(MenuItem::class)->orderBy('sequence');
     }
 
     /**

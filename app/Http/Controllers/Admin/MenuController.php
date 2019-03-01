@@ -38,8 +38,8 @@ class MenuController extends Controller
      */
     public function edit(Request $request, Menu $menu)
     {
-        return view('admin.menu.edit', [
-            'page' => $menu,
+        return view('admin.menu.update', [
+            'menu' => $menu,
         ]);
     }
 
@@ -75,6 +75,18 @@ class MenuController extends Controller
     public function store(PostMenuRequest $request, Menu $menu = null)
     {
 
+    }
+
+    /**
+     * @param Request $request
+     * @param Menu $menu
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function createItem(Request $request, Menu $menu)
+    {
+        return view('admin.menu.item.new', [
+            'menu' => $menu
+        ]);
     }
 
     /**

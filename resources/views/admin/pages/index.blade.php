@@ -16,11 +16,12 @@
             <div class="clearfix"></div>
 
             <hr/>
-            <table class="table table-bordered display nowrap" id="events-table" style="width:100%">
+            <table class="table table-bordered display nowrap" id="pages-table" style="width:100%">
                 <thead>
                 <tr>
                     <th>Name</th>
                     <th>URL</th>
+                    <th>Access level</th>
                     <th>Manage</th>
                 </tr>
                 </thead>
@@ -41,6 +42,7 @@
                 columns: [
                     {data: 'name', name: 'name'},
                     {data: 'url', name: 'url'},
+                    {data: 'access_level', name: 'access_level'},
                     {data: 'manage', name: 'manage'},
                 ]
             });

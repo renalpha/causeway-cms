@@ -10,10 +10,9 @@
             <div class="clearfix"></div>
 
             <hr/>
-
-            <form method="post" action="{{ route('admin.photo.album.new.store') }}" enctype="multipart/form-data">
-                @include('admin.photo.album.partials._form')
-            </form>
+            {{ Form::open(['url' => route('admin.photo.album.new.store'), 'files' => true]) }}
+            @include('admin.photo.album.partials._form')
+            {{ Form::close() }}
 
         </div>
     </div>

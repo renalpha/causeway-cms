@@ -92,6 +92,7 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
             'edit' => 'admin.pages.update',
             'store' => 'admin.pages.new.store',
             'update' => 'admin.pages.update.store',
+            'destroy' => 'admin.pages.remove',
         ]);
 
         Route::resource('sound', 'SoundController')->names([
@@ -102,6 +103,7 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
             'update' => 'admin.sound.update.store',
         ]);
 
+        Route::get('menu/item/create/{menu}', 'MenuController@createItem')->name('admin.menu.item.create');
         Route::resource('menu', 'MenuController')->names([
             'index' => 'admin.menu.index',
             'create' => 'admin.menu.create',

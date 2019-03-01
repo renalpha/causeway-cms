@@ -1,10 +1,7 @@
 <template>
     <form method="POST" :action="login_route" id="login-form" v-on:submit="loginPost">
-        <div class="alert spacing" v-bind:class="flashMessage.type" role="alert" v-show="flashMessage.show">
-            <strong>{{ flashMessage.title }}</strong><br/>
-            {{ flashMessage.message }}
-        </div>
-        <input type="hidden" name="_token" :value="csrf_token" />
+        <message ref="formMessage"></message>
+        <input type="hidden" name="_token" :value="csrf_token"/>
         <div class="form-group row">
             <label for="email" class="col-md-4 col-form-label text-md-right">E-mail address</label>
 
@@ -40,20 +37,26 @@
                 <button type="submit" class="btn btn-primary">
                     Login
                 </button>
-
+                <clip-loader :loading="loading" ref="formLoader"></clip-loader>
                 <a class="btn btn-link" :href="request_password_route">
                     Forgot password?
                 </a>
             </div>
         </div>
     </form>
-
 </template>
 
 <script>
+    import Message from './MessageComponent.vue';
+    import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
+
     export default {
         mounted() {
-            console.log('Component mounted.')
+            console.log('Login mounted.')
+        },
+        components: {
+            Message,
+            ClipLoader
         },
         data: function () {
             return {
@@ -61,12 +64,8 @@
                     email: '',
                     password: ''
                 },
-                flashMessage: {
-                    type: '',
-                    title: '',
-                    message: ''
-                },
-                formErrors: {}
+                formErrors: {},
+                loading: false
             }
         },
         created() {
@@ -77,34 +76,27 @@
         props: ['csrf_token', 'login_route', 'request_password_route'],
 
         methods: {
-            flash(type, title, message) {
-                this.flashMessage.show = true;
-                this.flashMessage.type = type;
-                this.flashMessage.title = title;
-                this.flashMessage.message = message;
-            },
-            hide() {
-                this.show = false;
-            },
             loginPost: function (event) {
 
                 let vm = this;
-
+                vm.loading = true;
                 event.preventDefault();
 
                 // perform ajax
                 axios.post(this.login_route, vm.loginDetails)
                     .then(function (response) {
+                        vm.loading = false;
                         var result = response.data;
                         if (result.status === true) {
-                            vm.flash('alert-success', 'Success:', 'You are logged in. Redirecting...');
+                            vm.$refs.formMessage.flash('alert-success', 'Success:', 'You are logged in. Redirecting...');
                             location.reload();
                         }
                     })
                     .catch(function (error) {
+                        vm.loading = false;
                         var errors = error.response.data;
                         vm.formErrors = errors.errors;
-                        vm.flash('alert-danger', 'Error:', 'An error occurred.');
+                        vm.$refs.formMessage.flash('alert-danger', 'Error:', 'An error occurred.');
                     });
             }
         }

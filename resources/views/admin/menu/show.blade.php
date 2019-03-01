@@ -6,6 +6,7 @@
 
         <div class="card-body">
             @include('layouts.partials._status_messages')
+            <a href="{{ route('admin.menu.item.create', ['menu' => $menu->id]) }}" class="btn btn-primary btn-sm float-right">Add item</a>
             <h4>Manage {{ $menu->label }}</h4>
             <div class="clearfix"></div>
 
@@ -16,24 +17,26 @@
                 ?>
                 @foreach($menu->items()->whereNull('parent_id')->get() as $item)
                     <li class="list-group-item list-group-item-action list-group-item-sortable" id="item-{{ $item->id }}">
-                        <div>{{ $item->label }}
+                        <span>{{ $item->label }}
                             <div class="pull-right">
                                 <a href="" class="btn btn-sm btn-warning">Edit</a>
-                                <a href="" class="btn btn-sm btn-danger">Remove</a>
+                                <modal-component></modal-component>
                             </div>
-                        </div>
-                        <ul class="list-group">
-                            @foreach($item->items as $subItem)
-                                <li class="list-group-item list-group-item-action list-group-item-sortable" id="item-{{ $subItem->id }}">
-                                    <div>{{ $subItem->label }}
-                                        <div class="pull-right">
-                                            <a href="" class="btn btn-sm btn-warning">Edit</a>
-                                            <a href="" class="btn btn-sm btn-danger">Remove</a>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
+                        </span>
+                        @if(count($item->items) > 0)
+                            <ul class="list-group" style="margin-top: 20px;">
+                                @foreach($item->items as $subItem)
+                                    <li class="list-group-item list-group-item-action list-group-item-sortable" id="item-{{ $subItem->id }}">
+                                        <span>{{ $subItem->label }}
+                                            <div class="pull-right">
+                                                <a href="" class="btn btn-sm btn-warning">Edit</a>
+                                                <modal-component></modal-component>
+                                            </div>
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
                     </li>
                 @endforeach
             </ul>
@@ -48,7 +51,7 @@
                 listType: 'ul',
                 disableNesting: 'no-nest',
                 forcePlaceholderSize: true,
-                handle: 'div',
+                handle: 'span',
                 helper: 'clone',
                 items: 'li',
                 maxLevels: 2,
@@ -57,7 +60,7 @@
                 revert: 250,
                 tabSize: 25,
                 tolerance: 'pointer',
-                toleranceElement: '> div',
+                toleranceElement: '> span',
                 update: function (event, ui) {
                     var data = JSON.stringify($(this).nestedSortable('toArray', {startDepthCount: 0}));
                     console.log(data);

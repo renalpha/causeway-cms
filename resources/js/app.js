@@ -22,6 +22,12 @@ Vue.component('register-component', require('./components/RegisterComponent.vue'
 
 Vue.component('request-password-component', require('./components/RequestPasswordComponent.vue').default);
 
+Vue.component('modal-component', require('./components/DialogComponent.vue').default);
+
+Vue.component('message-component', require('./components/MessageComponent.vue').default);
+
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default);
+
 const app = new Vue({
     el: '#app'
 });

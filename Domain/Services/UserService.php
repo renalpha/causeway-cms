@@ -7,6 +7,7 @@ use Domain\Entities\User\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Infrastructure\Repositories\UserRepository;
 
@@ -70,6 +71,7 @@ class UserService extends AbstractService
     /**
      * @param array $params
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Throwable
      */
     public function register(array $params)
     {
@@ -85,8 +87,6 @@ class UserService extends AbstractService
                 $user->assignRole('admin');
 
                 event(new Registered($user));
-
-                $this->guard()->login($user);
 
                 return $user;
             });

@@ -21,6 +21,6 @@ class MenuItem extends Entity
      */
     public function items()
     {
-        return $this->hasMany(self::class, 'parent_id', 'id');
+        return $this->hasMany(self::class, 'parent_id', 'id')->orderBy('sequence', 'desc');
     }
 }

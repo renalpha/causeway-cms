@@ -28,15 +28,17 @@
 
 <div id="gridEditor"></div>
 
+{{ Form::textarea('content', null, ['id' => 'page-content', 'class' => 'd-none']) }}
+
 <div class="form-group">
     <hr />
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
 </div>
 
-
 @push('scripts')
     <script type="application/javascript">
         $('#gridEditor').gridEditor({
+            source_textarea: 'textarea#page-content',
             content_types: ['summernote'],
             summernote: {
                 config: {
@@ -70,9 +72,9 @@
             }
         });
 
-        $('#page-form').on('submit', function () {
-            var html = $('#myGrid').gridEditor('getHtml');
-            $('textarea.myTextarea').val(html);
+        $('#page-form').on('submit', function (event) {
+            var html = $('#gridEditor').gridEditor('getHtml');
+            $('textarea#page-content').val(html);
         });
     </script>
 @endpush
