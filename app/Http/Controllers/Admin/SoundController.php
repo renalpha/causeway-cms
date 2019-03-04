@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostSoundRequest;
+use App\Jobs\GenerateWaveform;
 use Domain\Entities\Sound\Sound;
 use Domain\Services\SoundService;
 use Domain\Services\WaveformService;
@@ -75,15 +76,28 @@ class SoundController extends Controller
     /**
      * @param PostSoundRequest $request
      * @param Sound $sound
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(PostSoundRequest $request, Sound $sound)
     {
-        $page = $this->store($request, $sound);
+        return $this->store($request, $sound);
     }
 
+    /**
+     * @param PostSoundRequest $request
+     * @param Sound|null $sound
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(PostSoundRequest $request, Sound $sound = null)
     {
+        $soundRecord = $this->soundService->saveSound($request->only([
+            'artist', 'title', 'description', 'file',
+        ]), $sound->id ?? null);
 
+        $request->session()->flash('status', 'Sound ' . $soundRecord->title . ' uploaded.');
+
+        return redirect()
+            ->to(route('admin.sounds.index'));
     }
 
     public function foobar()
@@ -93,6 +107,8 @@ class SoundController extends Controller
         $this->waveformService->process();
 
         $this->waveformService->saveImage('waveform_example.png'); // Saves image to file
+
+        GenerateWaveform::dispatch();
 
         return $this->waveformService->outputImage(); // Outputs image to browser
     }

@@ -18,12 +18,12 @@ class CalendarItem extends AggregateRoot implements Likeable, \MaddHatter\Larave
     /**
      * @var string
      */
-    protected $table = 'calendar_item';
+    protected $table = 'calendar_items';
 
     /**
      * @var array
      */
-    protected $dates = ['start', 'end'];
+    protected $dates = ['start_datetime', 'end_datetime'];
 
     /**
      * @var array
@@ -96,5 +96,23 @@ class CalendarItem extends AggregateRoot implements Likeable, \MaddHatter\Larave
     public function getEnd()
     {
         return $this->end;
+    }
+
+    /**
+     * Set the label value.
+     *
+     * @param $value
+     */
+    public function setSlugAttribute($value): void
+    {
+        if (isset($value)) {
+            if ($value !== $this->slug) {
+                // Set slug
+                $this->attributes['slug'] = $this->generateIteratedName('slug', $value);
+            }
+        } else {
+            // Otherwise empty the slug
+            $this->attributes['slug'] = null;
+        }
     }
 }

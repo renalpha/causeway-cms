@@ -23,4 +23,22 @@ class Page extends AggregateRoot implements Likeable
      * @var string
      */
     protected $table = 'pages';
+
+    /**
+     * Set the label value.
+     *
+     * @param $value
+     */
+    public function setSlugAttribute($value): void
+    {
+        if (isset($value)) {
+            if ($value !== $this->slug) {
+                // Set slug
+                $this->attributes['slug'] = $this->generateIteratedName('slug', $value);
+            }
+        } else {
+            // Otherwise empty the slug
+            $this->attributes['slug'] = null;
+        }
+    }
 }

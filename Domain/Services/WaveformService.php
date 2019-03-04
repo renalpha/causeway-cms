@@ -172,10 +172,9 @@ class WaveformService {
 
     /**
      * Loads file
-     * @param $file file path
-     * @throws Exception File not found exception
+     * @param string $file file path
      */
-    public function loadFile($file) {
+    public function loadFile(string $file) {
         if (!file_exists($file))
             throw new Exception(sprintf('The file "%s" does not exist', $file));
 

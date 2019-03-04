@@ -7,6 +7,7 @@ use App\Http\Requests\PostEventRequest;
 use Domain\Entities\Event\CalendarItem;
 use Domain\Services\EventService;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 /**
  * Class EventController
@@ -67,8 +68,8 @@ class EventController extends Controller
             'id' => $calendarItem->id ?? null,
         ], $request->only([
             'name',
-            'start',
-            'end',
+            'start_datetime',
+            'end_datetime',
         ]));
 
         return redirect()
@@ -82,10 +83,7 @@ class EventController extends Controller
      */
     public function update(PostEventRequest $request, CalendarItem $calendarItem)
     {
-        $this->store($request, $calendarItem);
-
-        return redirect()
-            ->back();
+        return $this->store($request, $calendarItem);
     }
 
     /**
@@ -101,4 +99,34 @@ class EventController extends Controller
         return redirect()
             ->back();
     }
+
+    /**
+     * Get Datatables.
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getAjaxPages()
+    {
+        $events = CalendarItem::get();
+
+        return Datatables::of($events)
+            ->addColumn('name', function ($row) {
+                return $row->name;
+            })
+            ->addColumn('start_datetime', function ($row) {
+                return $row->start_datetime;
+            })
+            ->addColumn('end_datetime', function ($row) {
+                return $row->end_datetime;
+            })
+            ->addColumn('manage', function ($row) {
+                return '<a href="' . route('admin.events.update', ['id' => $row->id]) . '" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="' . route('admin.events.remove', ['id' => $row->id]) . '" class="btn btn-sm btn-danger">Remove</a>
+                        ';
+            })
+            ->rawColumns(['name', 'start_datetime', 'end_datetime', 'manage'])
+            ->make(true);
+    }
+
 }

@@ -4,10 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Class CreatePandaUserPointsTable
- */
-class CreateUserPointsTable extends Migration
+class CreateSoundsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,15 +13,20 @@ class CreateUserPointsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_points', function (Blueprint $table) {
+        Schema::create('sounds', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->nullable();
+            $table->text('description')->nullable();
+            $table->string('author')->nullable();
+            $table->string('filename')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->integer('amount');
             $table->timestamps();
+
+
         });
     }
 
@@ -35,6 +37,6 @@ class CreateUserPointsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_points');
+        Schema::dropIfExists('sounds');
     }
 }

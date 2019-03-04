@@ -18,4 +18,22 @@ class Sound extends Entity implements Likeable
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * Set the label value.
+     *
+     * @param $value
+     */
+    public function setNameAttribute($value): void
+    {
+        if (isset($value)) {
+            if ($value !== $this->name) {
+                // Set slug
+                $this->attributes['name'] = $this->generateIteratedName('name', $value);
+            }
+        } else {
+            // Otherwise empty the slug
+            $this->attributes['name'] = null;
+        }
+    }
 }
