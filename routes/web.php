@@ -34,7 +34,7 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
         });
 
         Route::group(['prefix' => 'events', 'middleware' => ['admin']], function () {
-            Route::get('index', 'EventController@getAjaxEvents')->name('ajax.events.index');
+            Route::get('index', 'Admin\EventController@getAjaxEvents')->name('ajax.events.index');
         });
 
         Route::group(['prefix' => 'pages', 'middleware' => ['admin']], function () {
@@ -84,6 +84,7 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
             'edit' => 'admin.events.update',
             'store' => 'admin.events.new.store',
             'update' => 'admin.events.update.store',
+            'destroy' => 'admin.events.remove',
         ]);
 
         Route::resource('pages', 'PageController')->names([

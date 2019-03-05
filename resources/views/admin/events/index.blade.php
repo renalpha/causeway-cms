@@ -19,7 +19,7 @@
             <table class="table table-bordered display nowrap" id="events-table" style="width:100%">
                 <thead>
                 <tr>
-                    <th>Name</th>
+                    <th>Title</th>
                     <th>Start date</th>
                     <th>End date</th>
                     <th>Manage</th>
@@ -40,9 +40,9 @@
                 scrollX: true,
                 ajax: '{!! route('ajax.events.index') !!}',
                 columns: [
-                    {data: 'name', name: 'name'},
-                    {data: 'start_date', name: 'start_date', searchable: false},
-                    {data: 'end_date', name: 'end_date', searchable: false},
+                    {data: 'title', name: 'title'},
+                    {data: 'start_datetime', name: 'start_datetime', searchable: false},
+                    {data: 'end_datetime', name: 'end_datetime', searchable: false},
                     {data: 'manage', name: 'manage'},
                 ]
             });

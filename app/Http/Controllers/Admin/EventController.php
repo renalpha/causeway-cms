@@ -42,32 +42,35 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('admin.events.create');
+        return view('admin.events.new');
     }
 
     /**
      * @param Request $request
-     * @param CalendarItem $calendarItem
+     * @param CalendarItem $event
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit(Request $request, CalendarItem $calendarItem)
+    public function edit(Request $request, CalendarItem $event)
     {
         return view('admin.events.update', [
-            'calendarItem' => $calendarItem,
+            'event' => $event,
         ]);
     }
 
     /**
      * @param PostEventRequest $request
-     * @param CalendarItem|null $calendarItem
+     * @param CalendarItem|null $event
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(PostEventRequest $request, CalendarItem $calendarItem = null)
+    public function store(PostEventRequest $request, CalendarItem $event = null)
     {
-        $event = $this->eventService->updateOrCreate([
-            'id' => $calendarItem->id ?? null,
+        $this->eventService->updateOrCreate([
+            'id' => $event->id ?? null,
         ], $request->only([
-            'name',
+            'title',
+            'slug',
+            'description',
+            'user_id',
             'start_datetime',
             'end_datetime',
         ]));
@@ -78,23 +81,23 @@ class EventController extends Controller
 
     /**
      * @param PostEventRequest $request
-     * @param CalendarItem $calendarItem
+     * @param CalendarItem $event
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(PostEventRequest $request, CalendarItem $calendarItem)
+    public function update(PostEventRequest $request, CalendarItem $event)
     {
-        return $this->store($request, $calendarItem);
+        return $this->store($request, $event);
     }
 
     /**
      * @param Request $request
-     * @param CalendarItem $calendarItem
+     * @param CalendarItem $event
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function removeEvent(Request $request, CalendarItem $calendarItem)
+    public function removeEvent(Request $request, CalendarItem $event)
     {
-        $calendarItem->delete();
+        $event->delete();
 
         return redirect()
             ->back();
@@ -106,13 +109,13 @@ class EventController extends Controller
      * @return mixed
      * @throws \Exception
      */
-    public function getAjaxPages()
+    public function getAjaxEvents()
     {
         $events = CalendarItem::get();
 
         return Datatables::of($events)
-            ->addColumn('name', function ($row) {
-                return $row->name;
+            ->addColumn('title', function ($row) {
+                return $row->title;
             })
             ->addColumn('start_datetime', function ($row) {
                 return $row->start_datetime;

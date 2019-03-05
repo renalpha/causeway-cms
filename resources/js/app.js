@@ -28,6 +28,8 @@ Vue.component('message-component', require('./components/MessageComponent.vue').
 
 Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default);
 
+Vue.component('datepicker-component', require('./components/DatepickerComponent').default);
+
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });

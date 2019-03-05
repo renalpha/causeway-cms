@@ -11,9 +11,9 @@
 
             <hr/>
 
-            <form method="post" action="{{ route('admin.events.create.store') }}" enctype="multipart/form-data">
+            {{ Form::open(['url' => route('admin.events.new.store'), 'id' => 'event-form']) }}
                 @include('admin.events.partials._form')
-            </form>
+            {{ Form::close() }}
 
         </div>
     </div>

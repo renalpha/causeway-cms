@@ -2,6 +2,7 @@
 
 namespace Domain\Entities\Event;
 
+use Carbon\Carbon;
 use Domain\Common\AggregateRoot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Rennokki\Befriended\Contracts\Likeable;
@@ -114,5 +115,10 @@ class CalendarItem extends AggregateRoot implements Likeable, \MaddHatter\Larave
             // Otherwise empty the slug
             $this->attributes['slug'] = null;
         }
+    }
+
+    public function getStartDatetimeAttribute()
+    {
+        return $this->attributes['start_datetime'];
     }
 }
