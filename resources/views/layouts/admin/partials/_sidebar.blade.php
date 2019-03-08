@@ -25,6 +25,11 @@
                 <li><a href="{{ route('admin.photo.album.new') }}" class="list-group-item"><i class="fa fa-file-photo-o"></i> <span>New album</span></a></li>
             </ul>
         </li>
+        <li><a href="{{ route('admin.forum.index') }}" class="list-group-item {{ (request()->is('admin/forum*'))? 'active' :'' }}"><i class="fa fa-foursquare"></i> <span>Forum</span></a>
+            <ul class="submenu" style="display: {{ (request()->is('admin/forum/new'))? 'block' :'' }};">
+                <li><a href="{{ route('admin.forum.create') }}" class="list-group-item"><i class="fa fa-foursquare"></i> <span>New category</span></a></li>
+            </ul>
+        </li>
         <li><a href="{{ route('admin.sound.index') }}" class="list-group-item {{ (request()->is('admin/sound/album*'))? 'active' :'' }}"><i class="fa fa-music"></i> <span>Sound</span></a>
             <ul class="submenu" style="display: {{ (request()->is('admin/photo/album/new'))? 'block' :'' }};">
                 <li><a href="{{ route('admin.sound.create') }}" class="list-group-item"><i class="fa fa-music"></i> <span>New sound</span></a></li>

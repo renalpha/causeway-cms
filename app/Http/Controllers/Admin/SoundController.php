@@ -30,6 +30,7 @@ class SoundController extends Controller
     public function __construct(SoundService $soundService, WaveformService $waveformService)
     {
         $this->soundService = $soundService;
+
         $this->waveformService = $waveformService;
 
         $this->waveformService->setHeight(100);
@@ -58,7 +59,7 @@ class SoundController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.new');
+        return view('admin.sound.new');
     }
 
     /**

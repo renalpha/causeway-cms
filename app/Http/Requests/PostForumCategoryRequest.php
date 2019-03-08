@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostSoundRequest extends FormRequest
+class PostForumCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,19 @@ class PostSoundRequest extends FormRequest
     public function rules()
     {
         return [
-            'artist' => 'required',
-            'name' => 'required',
-            'filename' => 'required|mimes:mpga,wav'
+            'title' => 'required',
         ];
+    }
+
+    /**
+     * Prepare for validation.
+     */
+    public function prepareForValidation()
+    {
+        $input = array_map('trim', $this->all());
+
+        $input['slug'] = str_slug($this->title);
+
+        $this->replace($input);
     }
 }

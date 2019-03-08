@@ -1,19 +1,19 @@
 <div class="form-group">
-    <label for="name">Name</label>
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
-    @if ($errors->has('name'))
+    <label for="parent_id">Parent</label>
+    {{ Form::select('parent_id', $forumCategories + ['' => '--- None ---'], null, ['class' => 'form-control']) }}
+    @if ($errors->has('parent_id'))
         <span class="invalid-feedback  d-block" role="alert">
-                    <strong>{{ $errors->first('name') }}</strong>
+                    <strong>{{ $errors->first('parent_id') }}</strong>
                 </span>
     @endif
 </div>
 
 <div class="form-group">
-    <label for="artist">Artist</label>
-    {!! Form::text('artist', null, ['class' => 'form-control']) !!}
-    @if ($errors->has('artist'))
+    <label for="name">Title</label>
+    {!! Form::text('title', null, ['class' => 'form-control']) !!}
+    @if ($errors->has('title'))
         <span class="invalid-feedback  d-block" role="alert">
-                    <strong>{{ $errors->first('artist') }}</strong>
+                    <strong>{{ $errors->first('title') }}</strong>
                 </span>
     @endif
 </div>
@@ -24,16 +24,6 @@
     @if ($errors->has('description'))
         <span class="invalid-feedback  d-block" role="alert">
                     <strong>{{ $errors->first('description') }}</strong>
-                </span>
-    @endif
-</div>
-
-<div class="form-group">
-    <label for="file">Music File</label>
-    {!! Form::file('filename', ['class' => 'form-control']) !!}
-    @if ($errors->has('filename'))
-        <span class="invalid-feedback  d-block" role="alert">
-                    <strong>{{ $errors->first('filename') }}</strong>
                 </span>
     @endif
 </div>

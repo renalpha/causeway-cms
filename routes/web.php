@@ -48,6 +48,10 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
         Route::group(['prefix' => 'sound', 'middleware' => ['admin']], function () {
             Route::get('index', 'Admin\SoundController@getAjaxPages')->name('ajax.sound.index');
         });
+
+        Route::group(['prefix' => 'forum', 'middleware' => ['admin']], function () {
+            Route::get('index', 'Admin\ForumController@getAjaxCategories')->name('ajax.forum.index');
+        });
     });
 
     Route::group(['namespace' => 'Admin', 'middleware' => 'admin', 'prefix' => 'admin'], function () {
@@ -102,6 +106,15 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
             'edit' => 'admin.sound.update',
             'store' => 'admin.sound.new.store',
             'update' => 'admin.sound.update.store',
+        ]);
+
+        Route::resource('forum', 'ForumController')->names([
+            'index' => 'admin.forum.index',
+            'create' => 'admin.forum.create',
+            'edit' => 'admin.forum.update',
+            'store' => 'admin.forum.new.store',
+            'update' => 'admin.forum.update.store',
+            'destroy' => 'admin.forum.remove',
         ]);
 
         Route::get('menu/item/create/{menu}', 'MenuController@createItem')->name('admin.menu.item.create');

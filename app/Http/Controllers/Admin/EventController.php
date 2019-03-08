@@ -95,7 +95,7 @@ class EventController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      */
-    public function removeEvent(Request $request, CalendarItem $event)
+    public function destroy(Request $request, CalendarItem $event)
     {
         $event->delete();
 
