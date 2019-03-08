@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\;
+namespace App\Http\Controllers;
 
 use App\Http\Requests\PostGroupRequest;
 use DataTables;
@@ -183,6 +183,7 @@ class GroupController extends Controller
      *
      * @param string $label
      * @return mixed
+     * @throws \Exception
      */
     public function getUsersOverviewGroup(string $label)
     {
@@ -212,6 +213,7 @@ class GroupController extends Controller
      * Get groups by user.
      *
      * @return mixed
+     * @throws \Exception
      */
     public function getGroupsByUser()
     {

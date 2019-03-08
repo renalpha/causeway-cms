@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\;
+namespace App\Http\Controllers;
 
 use Domain\Services\LikeService;
 use Illuminate\Http\Request;

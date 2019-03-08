@@ -49,6 +49,8 @@ class CommentController extends Controller
                 break;
             case 'photoComment':
                 break;
+            case 'forumThreadComment':
+                break;
         }
 
         $request->session()->flash('info', 'Comment posted.');

@@ -17,3 +17,13 @@ if (!function_exists('accessLevelList')) {
         ];
     }
 }
+
+if (!function_exists('cmsDate')) {
+    function cmsDateTime($value, $format = 'j M Y H:i')
+    {
+        if (isset($value) && !empty($value)) {
+            return \Carbon\Carbon::parse($value)->format($format);
+        }
+        return null;
+    }
+}

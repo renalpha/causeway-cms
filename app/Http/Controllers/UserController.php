@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\;
+namespace App\Http\Controllers;
 
 use Domain\Services\GroupService;
 use Domain\Services\UserService;

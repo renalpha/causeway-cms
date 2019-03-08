@@ -15,13 +15,16 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('index');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/test', 'Admin\SoundController@foobar');
-Route::get('/play', 'Admin\SoundController@play');
+
 /**
  * Protected routes for verified users...
  */
 Route::group(['middleware' => ['verified', 'auth']], function () {
-
+    Route::group(['prefix' => 'forum'], function () {
+        Route::get('/', 'ForumController@index');
+        Route::get('/category/{forum}', 'ForumController@getCategory');
+        Route::get('/thread/{thread}', 'ForumController@getThread');
+    });
     // Ajax routing
     Route::group(['prefix' => 'ajax'], function () {
         Route::get('reset/points', 'UserController@reset');
@@ -33,27 +36,35 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
             Route::get('index', 'GroupController@getGroupsByUser')->name('ajax.group.index');
         });
 
-        Route::group(['prefix' => 'events', 'middleware' => ['admin']], function () {
-            Route::get('index', 'Admin\EventController@getAjaxEvents')->name('ajax.events.index');
-        });
+        /**
+         * Admin protected ajax calls.
+         */
+        Route::group(['middleware' => ['admin']], function () {
+            Route::group(['prefix' => 'events'], function () {
+                Route::get('index', 'Admin\EventController@getAjaxEvents')->name('ajax.events.index');
+            });
 
-        Route::group(['prefix' => 'pages', 'middleware' => ['admin']], function () {
-            Route::get('index', 'Admin\PageController@getAjaxPages')->name('ajax.pages.index');
-        });
+            Route::group(['prefix' => 'pages'], function () {
+                Route::get('index', 'Admin\PageController@getAjaxPages')->name('ajax.pages.index');
+            });
 
-        Route::group(['prefix' => 'menu', 'middleware' => ['admin']], function () {
-            Route::get('index', 'Admin\MenuController@getAjaxMenu')->name('ajax.menu.index');
-        });
+            Route::group(['prefix' => 'menu'], function () {
+                Route::get('index', 'Admin\MenuController@getAjaxMenu')->name('ajax.menu.index');
+            });
 
-        Route::group(['prefix' => 'sound', 'middleware' => ['admin']], function () {
-            Route::get('index', 'Admin\SoundController@getAjaxPages')->name('ajax.sound.index');
-        });
+            Route::group(['prefix' => 'sound'], function () {
+                Route::get('index', 'Admin\SoundController@getAjaxPages')->name('ajax.sound.index');
+            });
 
-        Route::group(['prefix' => 'forum', 'middleware' => ['admin']], function () {
-            Route::get('index', 'Admin\ForumController@getAjaxCategories')->name('ajax.forum.index');
+            Route::group(['prefix' => 'forum'], function () {
+                Route::get('index', 'Admin\ForumController@getAjaxCategories')->name('ajax.forum.index');
+            });
         });
     });
 
+    /**
+     * Admin protected routes
+     */
     Route::group(['namespace' => 'Admin', 'middleware' => 'admin', 'prefix' => 'admin'], function () {
 
         Route::get('/', function () {

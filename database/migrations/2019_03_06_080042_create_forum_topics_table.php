@@ -30,8 +30,8 @@ class CreateForumTopicsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->integer('forum_category_id')->unsigned();
-            $table->foreign('forum_category_id')
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')
                 ->references('id')
                 ->on('forum_categories')
                 ->onDelete('cascade');
