@@ -3,6 +3,7 @@
 namespace App\Http\ViewComposers;
 
 use Domain\Entities\Menu\Menu;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class NavigationComposer
@@ -15,9 +16,15 @@ class NavigationComposer
      */
     public function compose($view)
     {
-        $siteMenu = Menu::where('name', 'site-menu')
-            ->getParents()
-            ->firstOrFail();
+        try {
+            $siteMenu = Menu::where('name', 'site-menu')
+                ->getParents()
+                ->firstOrFail();
+        }catch(\Exception $e)
+        {
+            Log::error('No site-menu found.');
+            $siteMenu = null;
+        }
 
         $view->with('site_menu', $siteMenu);
     }

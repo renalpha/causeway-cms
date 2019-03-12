@@ -26,6 +26,7 @@ class CreatePagesTable extends Migration
             $table->string('meta_title')->nullable();
             $table->string('meta_description')->nullable();
             $table->string('tags')->nullable();
+            $table->string('access_level')->nullable();
             $table->timestamps();
         });
     }

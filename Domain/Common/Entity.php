@@ -71,13 +71,15 @@ abstract class Entity extends Model
             $existing = $entity;
         }
 
-        $existing->where($column, 'LIKE', "{$name}%")
+        $name = str_slug($name);
+
+        $result = $existing->where($column, 'LIKE', "{$name}%")
             ->orderBy($column, 'desc')
             ->get();
 
-        if ($existing->count() > 0) {
-            $sequence = (int)str_replace($name, '', $existing->first()->{$column});
-            return $name . ($sequence + 1);
+        if ($result->count() > 0) {
+            $sequence = $result->count();
+            return $name . '-' . ($sequence + 1);
         } else {
             return $name;
         }

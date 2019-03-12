@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\ModelFactories;
+namespace Tests\Helpers;
 
 use Domain\Entities\User\User;
 use Spatie\Permission\Models\Role;
@@ -28,12 +28,21 @@ class UserFactory
     }
 
     /**
-     * @param Role $role
-     * @return $this
+     * @param $role
+     * @return UserFactory
+     * @throws \Exception
      */
-    public function withRole(Role $role): self
+    public function withRole($role): self
     {
-        $this->role = $role;
-        return $this;
+        if (is_string($role)) {
+            $role = Role::where('name', $role)->firstOrFail();
+        }
+
+        if ($role instanceof Role) {
+            $this->role = $role;
+            return $this;
+        }
+
+        throw new \Exception('Well this is not a role sir...');
     }
 }

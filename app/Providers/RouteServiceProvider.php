@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Domain\Entities\Forum\Category;
+use Domain\Entities\Forum\Thread;
 use Domain\Entities\PhotoAlbum\PhotoAlbum;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -28,6 +30,14 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind('photoAlbum', function ($value) {
             return PhotoAlbum::where('label', $value)->first();
+        });
+
+        Route::bind('forumCategory', function ($value) {
+            return Category::where('slug', $value)->first();
+        });
+
+        Route::bind('forumThread', function ($value) {
+            return Thread::where('slug', $value)->first();
         });
     }
 

@@ -73,3 +73,10 @@
         text-align: right;
     }
 }
+
+.responsive-images {
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}

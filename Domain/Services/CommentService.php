@@ -2,7 +2,8 @@
 
 namespace Domain\Services;
 
-use App\Events\PandaGroupCommentNotificationCreated;
+use App\Events\CommentNotificationCreated;
+use App\Exceptions\CommentNotificationException;
 use Infrastructure\Repositories\CommentRepository;
 
 /**
@@ -34,6 +35,10 @@ class CommentService extends AbstractService
             'data' => json_encode($data),
         ]);
 
-        event(new PandaGroupCommentNotificationCreated($comment));
+        try {
+            event(new CommentNotificationCreated($comment));
+        } catch (CommentNotificationException $e) {
+            report($e);
+        }
     }
 }

@@ -23,11 +23,24 @@ class Category extends AggregateRoot
     protected $guarded = [];
 
     /**
+     * @var array
+     */
+    protected $appends = ['json_children', 'fqn_slug', 'count_threads', 'count_replies'];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function threads(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Thread::class);
+    }
+
+    /**
+     * @return false|string
+     */
+    public function getJsonChildrenAttribute()
+    {
+        return json_encode($this->children->toArray(), true);
     }
 
     /**
@@ -67,4 +80,27 @@ class Category extends AggregateRoot
         return $query;
     }
 
+    /**
+     * @return string
+     */
+    public function getFqnSlugAttribute()
+    {
+        return route('site.forum.category', ['id' => $this->attributes['slug']]);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountThreadsAttribute()
+    {
+        return count($this->threads);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountRepliesAttribute()
+    {
+        return $this->threads()->withCount('comments')->get()->sum('comments_count');
+    }
 }

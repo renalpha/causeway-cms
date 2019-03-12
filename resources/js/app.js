@@ -30,6 +30,8 @@ Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default
 
 Vue.component('datepicker-component', require('./components/DatepickerComponent').default);
 
+Vue.component('forum-category-component', require('./components/ForumCategoryComponent').default);
+
 const app = new Vue({
     el: '#app',
 });

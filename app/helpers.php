@@ -27,3 +27,19 @@ if (!function_exists('cmsDate')) {
         return null;
     }
 }
+
+if (!function_exists('recursiveRequireFilesScanDir')) {
+    function recursiveRequireFilesScanDir($target)
+    {
+        if (is_dir($target)) {
+            $files = glob($target . '*', GLOB_MARK);
+            foreach ($files as $file) {
+                if (!is_dir($file)) {
+                    include_once(__DIR__ . '/' . $file);
+                } else {
+                    recursiveRequireFilesScanDir($file);
+                }
+            }
+        }
+    }
+}

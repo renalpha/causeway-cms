@@ -20,10 +20,13 @@ Route::get('/home', 'HomeController@index')->name('home');
  * Protected routes for verified users...
  */
 Route::group(['middleware' => ['verified', 'auth']], function () {
+    Route::post('/upload/file', 'UploadController@upload')->name('site.upload');
     Route::group(['prefix' => 'forum'], function () {
-        Route::get('/', 'ForumController@index');
-        Route::get('/category/{forum}', 'ForumController@getCategory');
-        Route::get('/thread/{thread}', 'ForumController@getThread');
+        Route::get('/', 'ForumController@index')->name('site.forum.index');
+        Route::get('/category/{forumCategory}', 'ForumController@getCategory')->name('site.forum.category');
+        Route::get('/category/{forumCategory}/thread/new', 'ForumController@getNewThread')->name('site.forum.thread.new');
+        Route::post('/category/{forumCategory}/thread/new', 'ForumController@postNewThread')->name('site.forum.thread.store');
+        Route::get('/category/{forumCategory}/thread/{forumThread}', 'ForumController@getThread')->name('site.forum.thread');
     });
     // Ajax routing
     Route::group(['prefix' => 'ajax'], function () {
@@ -129,6 +132,10 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
         ]);
 
         Route::get('menu/item/create/{menu}', 'MenuController@createItem')->name('admin.menu.item.create');
+        Route::get('menu/item/{menu}/edit/{item}', 'MenuController@editItem')->name('admin.menu.item.edit');
+        Route::post('menu/item/create/{menu}', 'MenuController@storeItem')->name('admin.menu.item.store');
+        Route::put('menu/item/{menu}/edit/{item}', 'MenuController@updateItem')->name('admin.menu.item.update');
+
         Route::resource('menu', 'MenuController')->names([
             'index' => 'admin.menu.index',
             'create' => 'admin.menu.create',

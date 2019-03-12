@@ -11,7 +11,7 @@
 
             <hr/>
 
-            {{ Form::open(['url' => route('admin.menu.new.store'), 'id' => 'menu-form']) }}
+            {{ Form::open(['url' => route('admin.menu.item.store', ['menu' => $menu->id]), 'id' => 'menu-form']) }}
             @include('admin.menu.item.partials._form')
             {{ Form::close() }}
 

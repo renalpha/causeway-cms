@@ -4,6 +4,7 @@ namespace Domain\Entities\Forum;
 
 use Domain\Common\Entity;
 use Domain\Entities\Comment\CommentTrait;
+use Domain\Entities\User\User;
 
 /**
  * Class Thread
@@ -29,6 +30,14 @@ class Thread extends Entity
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**

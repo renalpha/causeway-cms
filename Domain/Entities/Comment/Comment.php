@@ -3,6 +3,7 @@
 namespace Domain\Entities\Comment;
 
 use Domain\Common\AggregateRoot;
+use Domain\Entities\User\User;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Rennokki\Befriended\Contracts\Likeable;
 use Rennokki\Befriended\Traits\CanBeLiked;
@@ -62,5 +63,13 @@ class Comment extends AggregateRoot implements Likeable
         } catch (\Exception $e) {
             return 'Anonymous';
         }
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

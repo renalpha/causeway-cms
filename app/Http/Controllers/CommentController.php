@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostCommentRequest;
 use App\Models\Notification;
+use Carbon\Carbon;
+use Domain\Entities\Forum\Thread;
 use Domain\Services\CommentService;
 
 /**
@@ -38,7 +40,7 @@ class CommentController extends Controller
             case 'groupNotification':
                 $notification = Notification::where('id', $id)->firstOrFail();
                 auth()->user()->commentOn($notification, $id, [
-                    'comment' => $request->comment,
+                    'comment' => clean($request->comment),
                     'profile_picture' => '/images/' . auth()->user()->profile_picture,
                     'name' => auth()->user()->name,
                 ]);
@@ -49,7 +51,14 @@ class CommentController extends Controller
                 break;
             case 'photoComment':
                 break;
-            case 'forumThreadComment':
+            case Thread::class:
+                $thread = Thread::find($id);
+                auth()->user()->commentOn($thread, $id, [
+                    'comment' => $request->comment,
+                    'formatted_date' => Carbon::now()->diffForHumans(),
+                    'profile_picture' => '/images/' . auth()->user()->profile_picture,
+                    'name' => auth()->user()->name,
+                ]);
                 break;
         }
 

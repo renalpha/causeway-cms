@@ -17,7 +17,7 @@ trait CommentTrait
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')
-            ->orderBy('created_at', 'asc');
+            ->orderBy('created_at', 'desc');
     }
 
     /**

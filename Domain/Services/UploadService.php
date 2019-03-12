@@ -76,7 +76,7 @@ class UploadService extends AbstractService
 
         $uploadObject = new \stdClass();
         $uploadObject->name = str_replace($path, '', $file->getClientOriginalName());
-        $uploadObject->file_path = $fullFileName;
+        $uploadObject->file_path = str_replace('public/', '', $fullFileName);
         $uploadObject->filename = $fileName;
         $uploadObject->size = round(Storage::size($fullFileName) / 1024, 2);
 

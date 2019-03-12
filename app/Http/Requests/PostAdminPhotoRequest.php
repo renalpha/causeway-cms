@@ -36,7 +36,7 @@ class PostAdminPhotoRequest extends FormRequest
         $input = array_map('trim', $this->all());
 
         $input['name'] = strip_tags($this->name);
-        $input['description'] = strip_tags($this->description);
+        $input['description'] = clean($this->description);
 
         $this->replace($input);
     }

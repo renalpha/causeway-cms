@@ -35,7 +35,7 @@ class PostCommentRequest extends FormRequest
     {
         $input = array_map('trim', $this->all());
 
-        $input['comment'] = strip_tags($this->comment);
+        $input['comment'] = clean($this->comment);
 
         $this->replace($input);
     }

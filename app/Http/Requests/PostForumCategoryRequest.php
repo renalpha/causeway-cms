@@ -36,6 +36,7 @@ class PostForumCategoryRequest extends FormRequest
         $input = array_map('trim', $this->all());
 
         $input['slug'] = str_slug($this->title);
+        $input['description'] = clean($this->description);
 
         $this->replace($input);
     }

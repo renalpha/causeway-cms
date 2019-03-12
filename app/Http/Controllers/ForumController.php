@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostNewThreadRequest;
+use Domain\Entities\Forum\Category;
+use Domain\Entities\Forum\Thread;
 use Domain\Services\ForumService;
 use Domain\Services\GroupService;
+use Illuminate\Http\Request;
 
 /**
  * Class GroupController
@@ -25,10 +29,77 @@ class ForumController extends Controller
         $this->forumService = $forumService;
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         return view('forum.index', [
             'forumCategories' => $this->forumService->getActiveCategories(),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Category $forumCategory
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getCategory(Request $request, Category $forumCategory)
+    {
+        return view('forum.threadList', [
+            'category' => $forumCategory,
+            'threads' => $forumCategory->threads()->orderBy('forum_threads.created_at', 'desc')->paginate(25),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Category $forumCategory
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getNewThread(Request $request, Category $forumCategory)
+    {
+        return view('forum.newThread', [
+            'category' => $forumCategory,
+        ]);
+    }
+
+    /**
+     * @param PostNewThreadRequest $request
+     * @param Category $forumCategory
+     * @param Thread|null $item
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postNewThread(PostNewThreadRequest $request, Category $forumCategory, Thread $item = null)
+    {
+        $request->request->add([
+            'category_id' => $forumCategory->id,
+        ]);
+
+        $thread = $this->forumService->updateOrCreateThread([
+            'id' => $item->id ?? null,
+        ], $request->only(['title', 'slug', 'content', 'category_id']));
+
+        $request->session()->flash('status', isset($item->id) && $item->id !== null ? 'Thread has successfully been updated!' : 'Thread has successfully been created!');
+
+        return redirect()
+            ->route('site.forum.thread', [
+                'forumCategory' => $forumCategory->slug,
+                'forumThread' => $thread->slug,
+            ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Category $forumCategory
+     * @param Thread $forumThread
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getThread(Request $request, Category $forumCategory, Thread $forumThread)
+    {
+        return view('forum.thread', [
+            'category' => $forumCategory,
+            'thread' => $forumThread,
         ]);
     }
 }

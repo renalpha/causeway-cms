@@ -29,4 +29,16 @@ class PostSoundRequest extends FormRequest
             'filename' => 'required|mimes:mpga,wav'
         ];
     }
+
+    /**
+     * Prepare for validation.
+     */
+    public function prepareForValidation()
+    {
+        $input = array_map('trim', $this->all());
+
+        $input['description'] = clean($this->description);
+
+        $this->replace($input);
+    }
 }

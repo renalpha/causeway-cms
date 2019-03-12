@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostMenuItemRequest;
 use App\Http\Requests\PostMenuRequest;
 use Domain\Entities\Menu\Menu;
 use Domain\Entities\Menu\MenuItem;
+use Domain\Services\MenuService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -15,6 +17,20 @@ use Yajra\DataTables\Facades\DataTables;
  */
 class MenuController extends Controller
 {
+    /**
+     * @var MenuService
+     */
+    protected $menuService;
+
+    /**
+     * MenuController constructor.
+     * @param MenuService $menuService
+     */
+    public function __construct(MenuService $menuService)
+    {
+        $this->menuService = $menuService;
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -85,10 +101,52 @@ class MenuController extends Controller
     public function createItem(Request $request, Menu $menu)
     {
         return view('admin.menu.item.new', [
-            'menu' => $menu
+            'menu' => $menu,
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Menu $menu
+     * @param MenuItem $item
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editItem(Request $request, Menu $menu, MenuItem $item)
+    {
+        return view('admin.menu.item.update', [
+            'menu' => $menu,
+            'item' => $item,
+        ]);
+    }
+
+    /**
+     * @param PostMenuItemRequest $request
+     * @param Menu $menu
+     * @param MenuItem|null $item
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeItem(PostMenuItemRequest $request, Menu $menu, MenuItem $item = null)
+    {
+        $request->request->add(['menu_id' => $menu->id]);
+
+        $this->menuService->updateOrCreateItem([
+            'id' => $item->id ?? null,
+        ], $request->only(['menu_id', 'parent_id', 'label', 'url', 'access_level']));
+
+        return redirect()
+            ->route('admin.menu.show', ['id' => $menu->id]);
+    }
+
+    /**
+     * @param PostMenuItemRequest $request
+     * @param Menu $menu
+     * @param MenuItem $item
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateItem(PostMenuItemRequest $request, Menu $menu, MenuItem $item)
+    {
+        return $this->storeItem($request, $menu, $item);
+    }
     /**
      * Get Datatables.
      *
@@ -97,7 +155,7 @@ class MenuController extends Controller
      */
     public function getAjaxMenu()
     {
-        $menu = Menu::getParents()->get();
+        $menu = Menu::get();
 
         return Datatables::of($menu)
             ->addColumn('label', function ($row) {

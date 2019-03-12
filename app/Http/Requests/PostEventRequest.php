@@ -46,6 +46,7 @@ class PostEventRequest extends FormRequest
         $input['end_datetime'] = Carbon::parse($this->end_datetime);
         $input['slug'] = str_slug($this->title);
         $input['user_id'] = auth()->user()->id;
+        $input['description'] = clean($this->description);
 
         $this->replace($input);
     }

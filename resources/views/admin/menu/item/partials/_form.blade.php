@@ -1,6 +1,6 @@
 <div class="form-group">
     <label for="name">Parent</label>
-    {!! Form::select('parent_id', $menu->items->pluck('label','id'), null, ['class' => 'form-control']) !!}
+    {!! Form::select('parent_id', $menu->items->pluck('label','id')->toArray() + ['' => '-- No parent --'], null, ['class' => 'form-control']) !!}
     @if ($errors->has('parent_id'))
         <span class="invalid-feedback  d-block" role="alert">
                     <strong>{{ $errors->first('parent_id') }}</strong>

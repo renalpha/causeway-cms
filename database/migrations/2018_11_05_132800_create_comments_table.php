@@ -23,7 +23,7 @@ class CreateCommentsTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->text('data')->nullable();
+            $table->longText('data')->nullable();
             $table->timestamps();
         });
     }

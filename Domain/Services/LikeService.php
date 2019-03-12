@@ -3,6 +3,7 @@
 namespace Domain\Services;
 
 use App\Models\Notification;
+use Domain\Entities\Comment\Comment;
 use Domain\Entities\PandaComment\PandaComment;
 
 /**
@@ -24,7 +25,7 @@ class LikeService extends AbstractService
     {
         $this->likeAbleTypes = [
             'groupNotification',
-            'pandaComment',
+            'comment',
         ];
     }
 
@@ -41,12 +42,13 @@ class LikeService extends AbstractService
         switch ($type) {
             case 'groupNotification':
                 $notification = Notification::where('id', $id)->firstOrFail();
-                auth()->user()->toggleLike($notification);
+                auth()->user()->liking($notification);
                 break;
-            case 'pandaComment':
-                $comment = PandaComment::where('id', $id)->firstOrFail();
-                auth()->user()->toggleLike($comment);
+            case 'comment':
+                $comment = Comment::where('id', $id)->firstOrFail();
+                auth()->user()->liking($comment);
                 break;
         }
+        return true;
     }
 }

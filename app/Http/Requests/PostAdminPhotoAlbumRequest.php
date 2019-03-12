@@ -47,7 +47,7 @@ class PostAdminPhotoAlbumRequest extends FormRequest
             $input['label'] = str_slug($this->name);
         }
         $input['name'] = strip_tags($this->name);
-        $input['description'] = strip_tags($this->description);
+        $input['description'] = clean($this->description);
 
         $this->replace($input);
     }

@@ -11,9 +11,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
-                @foreach($site_menu->items as $site_menu_item)
-                    @include('layouts.partials._navigation_item', ['item' => $site_menu_item])
-                @endforeach
+                @if(isset($site_menu))
+                    @foreach($site_menu->items as $site_menu_item)
+                        @include('layouts.partials._navigation_item', ['item' => $site_menu_item])
+                    @endforeach
+                @endif
             </ul>
 
             <!-- Right Side Of Navbar -->

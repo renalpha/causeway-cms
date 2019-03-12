@@ -19,7 +19,7 @@
                     <li class="list-group-item list-group-item-action list-group-item-sortable" id="item-{{ $item->id }}">
                         <span>{{ $item->label }}
                             <div class="pull-right">
-                                <a href="" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ route('admin.menu.item.edit', ['menu' => $menu->id, 'item' => $item->id]) }}" class="btn btn-sm btn-warning">Edit</a>
                                 <modal-component></modal-component>
                             </div>
                         </span>

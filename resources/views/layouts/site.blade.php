@@ -21,18 +21,23 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+    @stack('topscripts')
 </head>
 <body>
-    <div id="app">
-        @include('layouts.partials._navigation')
+<div id="app">
+    @include('layouts.partials._navigation')
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+    <main class="py-4">
+        @include('layouts.partials._breadcrumbs')
+        @yield('content')
+    </main>
+</div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/website.js') }}" defer></script>
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/website.js') }}"></script>
+<script src="{{ asset('js/datatables.min.js') }}"></script>
+@stack('headerScripts')
+@stack('scripts')
 </body>
 </html>
