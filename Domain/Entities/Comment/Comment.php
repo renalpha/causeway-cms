@@ -72,4 +72,20 @@ class Comment extends AggregateRoot implements Likeable
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * @return integer
+     */
+    public function getLikesCountAttribute()
+    {
+        return $this->likers(\Domain\Entities\User\User::class)->count();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLikesByUsersAttribute()
+    {
+        return $this->likers(\Domain\Entities\User\User::class)->get();
+    }
 }

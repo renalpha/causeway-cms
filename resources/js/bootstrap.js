@@ -10,6 +10,7 @@ window.Popper = require('popper.js').default;
 try {
     window.$ = window.jQuery = require('jquery');
     require('bootstrap');
+    require('fullcalendar');
     require('datatables.net-bs4');
     require('jquery-ui');
     require('jquery-ui/ui/widgets/sortable');

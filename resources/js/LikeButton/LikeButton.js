@@ -1,5 +1,5 @@
-window.jQuery(document).ready(function (){
-    window.jQuery('.btn-like').on('click', function(event, count) {
+window.jQuery(document).ready(function () {
+    window.jQuery('.btn-like-action').on('click', function (event, count) {
         event.preventDefault();
 
         var $this = $(this),
@@ -24,8 +24,13 @@ window.jQuery(document).ready(function (){
 
         // Second method, use when ... I dunno when but it looks cool and that's why it is here
         $.fn.noop = $.noop;
-        $this.attr('data-count', ! active || multiple ? ++count : --count  )[multiple ? 'noop' : 'toggleClass']('active');
+        $this.attr('data-count', !active || multiple ? ++count : --count)[multiple ? 'noop' : 'toggleClass']('active');
 
         return false;
     });
 });
+
+// window.jQuery('.cms-quote-comment').on('click', function () {
+//     $('[name="comment"]').text($(this).data('quote-name') + ' wrote: ' + $(this).data('quote-comment'));
+//     $('[name="comment"]').focus()[0].setSelectionRange(0, 0);
+// });

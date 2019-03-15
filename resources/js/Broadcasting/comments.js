@@ -16,6 +16,7 @@ window.jQuery(document).ready(function () {
         var formData = new FormData($(this)[0]);
 
         window.jQuery.ajax({
+            dataType: 'json',
             url: $(this).attr('action'),
             method: 'post',
             processData: false, // important

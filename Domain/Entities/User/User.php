@@ -6,16 +6,16 @@ use Domain\Entities\Group\GroupUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Rennokki\Befriended\Contracts\Liking;
-use Rennokki\Befriended\Traits\Like;
+use Rennokki\Befriended\Contracts\Liker;
+use Rennokki\Befriended\Traits\CanLike;
 
 /**
  * Class User
  * @package Domain\Entities\User
  */
-class User extends Authenticatable implements Liking, MustVerifyEmail
+class User extends Authenticatable implements Liker, MustVerifyEmail
 {
-    use UserTrait, Like, Notifiable;
+    use UserTrait, CanLike, Notifiable;
 
     /**
      * @var string

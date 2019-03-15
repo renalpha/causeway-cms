@@ -30,8 +30,8 @@ class PostEventRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'start_datetime' => ['required', 'date', request()->start_datetime ? 'before:end_datetime' : ''],
-            'end_datetime' => ['date', request()->start_datetime ? 'after:start_datetime' : ''],
+            'start_datetime' => !isset($this->full_day) ? ['required', 'date', request()->start_datetime ? 'before:end_datetime' : ''] : [],
+            'end_datetime' => !isset($this->full_day) ? ['date', request()->start_datetime ? 'after:start_datetime' : ''] : [],
         ];
     }
 
@@ -42,8 +42,9 @@ class PostEventRequest extends FormRequest
     {
         $input = array_map('trim', $this->all());
 
-        $input['start_datetime'] = Carbon::parse($this->start_datetime);
-        $input['end_datetime'] = Carbon::parse($this->end_datetime);
+        $input['start_datetime'] = isset($this->full_day) ? Carbon::parse($this->start_datetime)->startOfDay() : Carbon::parse($this->start_datetime);
+        $input['end_datetime'] = isset($this->full_day) ? Carbon::parse($this->end_datetime)->endOfDay() : Carbon::parse($this->end_datetime);
+
         $input['slug'] = str_slug($this->title);
         $input['user_id'] = auth()->user()->id;
         $input['description'] = clean($this->description);

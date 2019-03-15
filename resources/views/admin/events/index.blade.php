@@ -27,6 +27,8 @@
                 </thead>
             </table>
 
+            <hr />
+            {!! $calendar->calendar() !!}
         </div>
     </div>
 @endsection
@@ -48,4 +50,5 @@
             });
         });
     </script>
+    {!! $calendar->script() !!}
 @endpush

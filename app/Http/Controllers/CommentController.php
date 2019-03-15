@@ -62,6 +62,10 @@ class CommentController extends Controller
                 break;
         }
 
+        if ($request->wantsJson()) {
+            return response()->json(['status' => true]);
+        }
+
         $request->session()->flash('info', 'Comment posted.');
 
         return redirect()

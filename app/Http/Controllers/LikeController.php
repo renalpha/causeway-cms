@@ -30,6 +30,7 @@ class LikeController extends Controller
      * @param Request $request
      * @param string $type
      * @param string $id
+     * @return bool
      * @throws \Exception
      */
     public function like(Request $request, string $type, string $id)
@@ -39,5 +40,8 @@ class LikeController extends Controller
         }
 
         $this->likeService->likeSubjectByTypeAndId($type, $id);
+
+        return response()
+            ->json(['status' => true]);
     }
 }

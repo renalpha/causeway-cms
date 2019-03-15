@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostNewThreadRequest;
+use Domain\Entities\Comment\Comment;
 use Domain\Entities\Forum\Category;
 use Domain\Entities\Forum\Thread;
 use Domain\Services\ForumService;
@@ -101,5 +102,22 @@ class ForumController extends Controller
             'category' => $forumCategory,
             'thread' => $forumThread,
         ]);
+    }
+
+    /**
+     * Get quote by comment.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|void
+     */
+    public function getQuoteByComment(Request $request)
+    {
+        if (!isset($request->comment_id)) {
+            return abort(404);
+        }
+
+        $comment = Comment::findOrFail($request->comment_id);
+
+        return response()->json(['status' => true, 'comment' => strip_tags($comment->comment, '<br /><p><b><strong><u><ul><li><ol>'), 'name' => $comment->name, 'date' => cmsDateTime($comment->created_at)]);
     }
 }

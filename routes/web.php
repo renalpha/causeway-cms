@@ -14,7 +14,6 @@
 Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->name('index');
-Route::get('/home', 'HomeController@index')->name('home');
 
 /**
  * Protected routes for verified users...
@@ -22,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['verified', 'auth']], function () {
     Route::post('/upload/file', 'UploadController@upload')->name('site.upload');
     Route::group(['prefix' => 'forum'], function () {
+        Route::get('/get-quote', 'ForumController@getQuoteByComment')->name('site.forum.quote');
         Route::get('/', 'ForumController@index')->name('site.forum.index');
         Route::get('/category/{forumCategory}', 'ForumController@getCategory')->name('site.forum.category');
         Route::get('/category/{forumCategory}/thread/new', 'ForumController@getNewThread')->name('site.forum.thread.new');
@@ -130,6 +130,7 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
             'update' => 'admin.forum.update.store',
             'destroy' => 'admin.forum.remove',
         ]);
+        Route::get('forum/index/sort', 'ForumController@sortCategory')->name('admin.forum.index.sort');
 
         Route::get('menu/item/create/{menu}', 'MenuController@createItem')->name('admin.menu.item.create');
         Route::get('menu/item/{menu}/edit/{item}', 'MenuController@editItem')->name('admin.menu.item.edit');
@@ -153,3 +154,5 @@ Route::group(['middleware' => ['verified', 'auth']], function () {
         Route::get('/', 'Auth\UserProfileController@show')->name('profile');
     });
 });
+
+Route::get('/{pageSlug?}', 'PageController@getSlug');

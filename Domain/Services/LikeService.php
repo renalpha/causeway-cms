@@ -34,11 +34,12 @@ class LikeService extends AbstractService
      *
      * @param string $type
      * @param string $id
-     * @return bool
      * @throws \Exception
      */
-    public function likeSubjectByTypeAndId(string $type, string $id): bool
+    public function likeSubjectByTypeAndId(string $type, string $id)
     {
+        $user = auth()->user();
+
         switch ($type) {
             case 'groupNotification':
                 $notification = Notification::where('id', $id)->firstOrFail();
@@ -46,9 +47,13 @@ class LikeService extends AbstractService
                 break;
             case 'comment':
                 $comment = Comment::where('id', $id)->firstOrFail();
-                auth()->user()->liking($comment);
+                if ($user->likes($comment)) {
+                    $user->unlike($comment);
+                } else {
+                    $user->like($comment);
+                }
+
                 break;
         }
-        return true;
     }
 }

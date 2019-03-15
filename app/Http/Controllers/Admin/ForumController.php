@@ -72,6 +72,7 @@ class ForumController extends Controller
             'slug',
             'description',
             'parent_id',
+            'sequence',
         ]));
 
         $request->session()->flash('status', isset($forum->id) && $forum->id !== null ? 'Category has successfully been updated!' : 'Category has successfully been created!');
@@ -105,6 +106,26 @@ class ForumController extends Controller
     }
 
     /**
+     * Move categories to order by direction buttons.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function sortCategory(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        if (!isset($request->direction, $request->category)) {
+            return abort(404, 'Invalid...');
+        }
+
+        $category = Category::findOrFail($request->category);
+
+        $sequence = $this->forumService->setCategorySequence($request->direction, $category);
+
+        return redirect()
+            ->back();
+    }
+
+    /**
      * Get Datatables.
      *
      * @return mixed
@@ -119,12 +140,23 @@ class ForumController extends Controller
                 return $row->title;
             })
             ->addColumn('subcategory', function ($row) {
-                $html = '<ul class="list-group">';
+                $html = '<ul class="list-group sortableNav">';
                 foreach ($row->children as $child) {
-                    $html .= '<li class="list-group-item list-group-item-action">' . $child->title;
-                    $html .= '<span class="pull-right">
+                    $html .= '<li class="list-group-item list-group-item-action" id="item-' . $child->id . '"><span>' . $child->title . '</span>';
+                    $html .= '<div class="pull-right">
+                                <ul class="up-down-chevron-btns">';
+                    if (!isset($child->sequence) || $row->children()->min('sequence') !== $child->sequence) {
+                        $html .= '<li><a href="' . route('admin.forum.index.sort', ['category' => $child->id, 'direction' => 'up']) . '"><i class="fa fa-chevron-up"></i></a></li>';
+                    }
+                    if (!isset($child->sequence) || $row->children()->max('sequence') !== $child->sequence) {
+                        $html .= '<li><a href="' . route('admin.forum.index.sort', ['category' => $child->id, 'direction' => 'down']) . '"><i class="fa fa-chevron-down"></i></a></li>';
+                    }
+                    $html .= '</ul>
+                                </div>
+                                <div class="pull-right">
+                                <a href="' . route('admin.forum.update', ['id' => $child->id]) . '" class="btn btn-sm btn-warning">Edit</a>
                                 <a href="' . route('admin.forum.remove', ['id' => $child->id]) . '" class="btn btn-sm btn-danger">Remove</a>
-                                <a href="' . route('admin.forum.update', ['id' => $child->id]) . '" class="btn btn-sm btn-warning">Edit</a></span>';
+                                </div>';
                     $html .= '</li>';
                 }
 

@@ -48,7 +48,7 @@ class Category extends AggregateRoot
      */
     public function children()
     {
-        return $this->hasMany(Category::class, 'parent_id', 'id');
+        return $this->hasMany(Category::class, 'parent_id', 'id')->orderBy('sequence', 'asc');
     }
 
     /**
@@ -102,5 +102,23 @@ class Category extends AggregateRoot
     public function getCountRepliesAttribute()
     {
         return $this->threads()->withCount('comments')->get()->sum('comments_count');
+    }
+
+    /**
+     * @param $id
+     * @return Model
+     */
+    public static function findNext($id)
+    {
+        return static::where('id', '>', $id)->first();
+    }
+
+    /**
+     * @param $id
+     * @return Model
+     */
+    public static function findPrevious($id)
+    {
+        return static::where('id', '<', $id)->first();
     }
 }

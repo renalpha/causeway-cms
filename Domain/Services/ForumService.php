@@ -2,6 +2,7 @@
 
 namespace Domain\Services;
 
+use Domain\Entities\Forum\Category;
 use Illuminate\Database\Eloquent\Collection;
 use Infrastructure\Repositories\ForumCategoryRepository;
 use Infrastructure\Repositories\ForumThreadRepository;
@@ -12,10 +13,10 @@ use Infrastructure\Repositories\ForumThreadRepository;
  */
 class ForumService extends AbstractService
 {
-    /** @var ForumThreadRepository  */
+    /** @var ForumThreadRepository */
     protected $threadRepository;
 
-    /** @var ForumCategoryRepository  */
+    /** @var ForumCategoryRepository */
     protected $categoryRepository;
 
     /**
@@ -59,5 +60,51 @@ class ForumService extends AbstractService
     public function getActiveCategories(): Collection
     {
         return $this->categoryRepository->whereNull('parent_id')->get();
+    }
+
+    /**
+     * @param $direction
+     * @param Category $category
+     * @return int
+     */
+    public function setCategorySequence($direction, Category $category)
+    {
+        $categoriesByParent = Category::where('parent_id', $category->parent_id);
+
+        foreach ($categoriesByParent->get() as $item) {
+            if (isset($item->id)) {
+                $condition = Category::findOrFail($item->id);
+                $condition->sequence = $item->sequence ?? 0;
+                $condition->save();
+            }
+        }
+
+        $sequence = (int)$category->sequence;
+
+        switch ($direction) {
+            case 'up':
+                $sequence--;
+                break;
+            case 'down':
+                $sequence++;
+                break;
+        }
+
+        $existingSequenceCategory = $categoriesByParent->where('sequence', $sequence)->first();
+
+        if (isset($existingSequenceCategory)) {
+            switch ($direction) {
+                case 'up':
+                    $sequence--;
+                    break;
+                case 'down':
+                    $sequence++;
+                    break;
+            }
+        }
+
+        $category->sequence = $sequence;
+
+        $category->save();
     }
 }

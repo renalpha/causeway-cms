@@ -3,7 +3,7 @@
         <thead>
         <tr>
             <th data-class="expand" class="footable-visible footable-first-column"><i class="fa fa-list-ol"></i> <a
-                    href="" data-original-title="" title="">{{ category.title }}</a><br />{{ category.description }}</th>
+                    href="" data-original-title="" title="">{{ category.title }}</a><br /><span v-html="category.description">{{ category.description }}</span></th>
             <th class="large80 footable-visible" data-hide="phone"><i class="fa fa-bar-chart-o"></i> Statistics</th>
             <th class="large20 footable-visible footable-last-column" data-hide="phone"><i class="fa fa-comments-o"></i> Last post</th>
         </tr>
@@ -18,7 +18,7 @@
                 <a class="btn-rss pull-right hidden-xs hidden-sm" title="" href="http://www.sitesplat.com/demo/phpBB3/feed.php?f=2"
                    data-original-title="Feed - Your first forum"><i class="fa fa-rss rss-color-forum"></i></a> <span class="desc-wrapper">
                         <a :href="subcategory.fqn_slug" class="forumtitle" data-original-title="" title="">{{ subcategory.title }}</a><br>
-                        <span class="description">{{ subcategory.description }}</span><br>
+                        <span class="description" v-html="subcategory.description">{{ subcategory.description }}</span><br>
             </span>
             </td>
             <td class="stats-col footable-visible">

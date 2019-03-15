@@ -4,9 +4,10 @@ namespace App\Providers;
 
 use Domain\Entities\Forum\Category;
 use Domain\Entities\Forum\Thread;
+use Domain\Entities\Page\Page;
 use Domain\Entities\PhotoAlbum\PhotoAlbum;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -39,6 +40,10 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('forumThread', function ($value) {
             return Thread::where('slug', $value)->first();
         });
+
+        Route::bind('pageSlug', function ($value) {
+            return Page::where('slug', $value)->first();
+        });
     }
 
     /**
@@ -65,8 +70,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -79,8 +84,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
 }

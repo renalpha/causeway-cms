@@ -41,4 +41,12 @@ class Page extends AggregateRoot implements Likeable
             $this->attributes['slug'] = null;
         }
     }
+
+    /**
+     * @param $value
+     */
+    public function setContentAttribute($value)
+    {
+        $this->attributes['content'] = str_replace(['}}', '{{'], ['\}\}', '\{\{'], $value);
+    }
 }

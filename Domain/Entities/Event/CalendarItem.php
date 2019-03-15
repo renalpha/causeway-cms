@@ -86,7 +86,7 @@ class CalendarItem extends AggregateRoot implements Likeable, \MaddHatter\Larave
      */
     public function getStart()
     {
-        return $this->start;
+        return Carbon::parse($this->start_datetime);
     }
 
     /**
@@ -96,7 +96,7 @@ class CalendarItem extends AggregateRoot implements Likeable, \MaddHatter\Larave
      */
     public function getEnd()
     {
-        return $this->end;
+        return Carbon::parse($this->end_datetime);
     }
 
     /**

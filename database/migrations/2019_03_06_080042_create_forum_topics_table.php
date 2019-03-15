@@ -20,6 +20,7 @@ class CreateForumTopicsTable extends Migration
             $table->string('slug');
             $table->string('access_level')->nullable();
             $table->text('description')->nullable();
+            $table->integer('sequence')->nullable();
             $table->timestamps();
         });
 

@@ -34,7 +34,11 @@ class EventController extends Controller
      */
     public function index()
     {
-        return view('admin.events.index');
+        $calendar = \Calendar::addEvents(CalendarItem::get()); //add an array with addEvents
+
+        return view('admin.events.index', [
+            'calendar' => $calendar,
+        ]);
     }
 
     /**
@@ -75,8 +79,10 @@ class EventController extends Controller
             'end_datetime',
         ]));
 
+        $request->session()->flash('status', isset($event->id) && $event->id !== null ? 'Event has successfully been updated!' : 'Event has successfully been created!');
+
         return redirect()
-            ->back();
+            ->route('admin.events.index');
     }
 
     /**
