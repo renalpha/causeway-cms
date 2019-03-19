@@ -3,15 +3,14 @@
         <ul class="list-group commentList" data-comment="{{ $commentsObject->id }}">
             <li class="list-group-item flex-column align-items-start list-group-item-secondary" id="forumReply">
                 <p><strong>Discussion</strong></p>
-                <form class="replyForm" role="form" method="post" action="{{ route('comment.store', ['type' => $type, 'id' => $commentsObject->id]) }}" autocomplete="off">
-                    @csrf
-                    <div class="form-group">
-                        <textarea class="form-control" placeholder="Your comments" name="comment" id="summernote"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Post</button>
-                    </div>
-                </form>
+                {{ Form::open(['url' => route('comment.store', ['type' => $type, 'id' => $commentsObject->id]), 'method' => 'post', 'autocomplete' => 'off', 'role' => 'form', 'class' => 'replyForm']) }}
+                <div class="form-group">
+                    {{ Form::textarea('comment', ['placeholder' => 'Your thoughts...', 'id' => 'summernote', 'class' => 'form-control']) }}
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Post</button>
+                </div>
+                {{ Form::close() }}
             </li>
             @if(isset($commentsObject->comments))
                 @foreach($commentsObject->comments()->limit(30)->get() as $comment)
