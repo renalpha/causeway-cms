@@ -70,9 +70,7 @@ class PageController extends Controller
      */
     public function store(PostPageRequest $request, Page $page = null)
     {
-        $page = $this->pageService->savePage($request->only([
-            'name', 'slug', 'content', 'meta_title', 'meta_description', 'tags', 'access_level',
-        ]), $page->id ?? null);
+        $page = $this->pageService->savePage($request, $page->id ?? null);
 
         $request->session()->flash('status', 'Page ' . $page->name . ' created');
 

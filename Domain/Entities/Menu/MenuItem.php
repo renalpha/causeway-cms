@@ -10,6 +10,12 @@ use Domain\Common\Entity;
  */
 class MenuItem extends Entity
 {
+    use \Dimsav\Translatable\Translatable;
+
+    /**
+     * @var array
+     */
+    public $translatedAttributes = ['label', 'url'];
 
     /**
      * @var array

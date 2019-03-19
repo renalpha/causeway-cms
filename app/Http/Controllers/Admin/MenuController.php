@@ -131,7 +131,7 @@ class MenuController extends Controller
 
         $this->menuService->updateOrCreateItem([
             'id' => $item->id ?? null,
-        ], $request->only(['menu_id', 'parent_id', 'label', 'url', 'access_level']));
+        ], $request);
 
         return redirect()
             ->route('admin.menu.show', ['id' => $menu->id]);

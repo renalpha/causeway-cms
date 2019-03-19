@@ -25,8 +25,6 @@ class CreateMenuAndMenuItemsTable extends Migration
             $table->integer('menu_id')->unsigned();
             $table->foreign('menu_id')->references('id')->on('menus');
             $table->integer('parent_id')->index()->nullable();
-            $table->string('label');
-            $table->string('url')->nullable();
             $table->string('access_level')->nullable();
             $table->boolean('active')->nullable();
             $table->integer('sequence')->nullable();

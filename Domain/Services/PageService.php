@@ -3,6 +3,7 @@
 namespace Domain\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Infrastructure\Repositories\PageRepository;
 
 /**
@@ -21,17 +22,19 @@ class PageService extends AbstractService
     }
 
     /**
-     * @param array $params
+     * @param Request $request
      * @param int|null $id
      * @return Model
      */
-    public function savePage(array $params, int $id = null)
+    public function savePage(Request $request, int $id = null)
     {
-        $params['user_id'] = auth()->user()->id;
+        $request->request->add(['user_id' => auth()->user()->id,
+            'en' => $request->only(['name', 'slug', 'content', 'meta_title', 'meta_description', 'tags']),
+        ]);
 
         $page = $this->repository->updateOrCreate([
             'id' => $id ?? null,
-        ], $params);
+        ], $request->only(['user_id', 'access_level', 'en']));
 
         return $page;
     }

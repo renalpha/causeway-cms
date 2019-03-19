@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 abstract class Entity extends Model
 {
+    use SlugTrait;
+
     /**
      * @var int
      */
@@ -52,37 +54,5 @@ abstract class Entity extends Model
     public function getCreatedAtHumansAttribute()
     {
         return $this->created_at->diffForHumans();
-    }
-
-    /**
-     * Generates an unique iterated name.
-     *
-     * @param $column
-     * @param $name
-     * @return string
-     */
-    protected function generateIteratedName($column, $name): string
-    {
-        $entity = new $this;
-        try {
-            // Requires soft delete
-            $existing = $entity->withTrashed();
-        } catch (\Exception $e) {
-            $existing = $entity;
-        }
-
-        $name = str_slug($name);
-
-        $result = $existing->where($column, 'LIKE', "{$name}%")
-            ->orderBy($column, 'desc')
-            ->get();
-
-        if ($result->count() > 0) {
-            $sequence = $result->count();
-            return $name . '-' . ($sequence + 1);
-        } else {
-            return $name;
-        }
-
     }
 }

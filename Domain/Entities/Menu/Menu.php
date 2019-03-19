@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Menu extends AggregateRoot
 {
-
     /**
      * @var array
      */
